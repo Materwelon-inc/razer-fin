@@ -44,8 +44,15 @@
 
 <script>
   import firebase from 'firebase';
+  import { mapState } from 'vuex';
 
   export default {
+    name: 'Register',
+    computed: {
+      ...mapState({
+        user: 'user',
+      }),
+    },
     data() {
       return {
         isSubmitting: false,
@@ -57,6 +64,9 @@
         success: null,
         error: null,
       };
+    },
+    beforeMount() {
+      if (this.user.loggedIn) this.$router.replace({ name: 'Dashboard' });
     },
     methods: {
       submit() {
