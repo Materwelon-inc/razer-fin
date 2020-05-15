@@ -1,5 +1,54 @@
 <template>
   <div class="about">
-    <h1>This is an about page</h1>
+    <section class="container">
+      <article class="media" v-for="i in media" :key="i">
+        <figure class="media-left">
+          <p class="image is-64x64">
+            <b-skeleton circle width="64px" height="64px"></b-skeleton>
+          </p>
+        </figure>
+        <div class="media-content">
+          <div class="content">
+            <p>
+              <b-skeleton active></b-skeleton>
+              <b-skeleton height="80px"></b-skeleton>
+            </p>
+          </div>
+          <nav class="level is-mobile">
+            <div class="level-left">
+              <a class="level-item">
+                <span class="icon is-small">
+                  <b-skeleton></b-skeleton>
+                </span>
+              </a>
+              <a class="level-item">
+                <span class="icon is-small">
+                  <b-skeleton></b-skeleton>
+                </span>
+              </a>
+            </div>
+          </nav>
+        </div>
+      </article>
+
+    {{media}}
+    <b-field>
+      <b-input type="number" :value="media"></b-input>
+      <p class="control">
+        <button class="button is-success">Transfer</button>
+      </p>
+    </b-field>
+    </section>
   </div>
 </template>
+
+<script>
+export default {
+  name: 'About',
+  data() {
+    return {
+      media: 3,
+    };
+  },
+};
+</script>
