@@ -71,7 +71,7 @@
 
 
 <script>
-import firebase from "firebase";
+import firebase from 'firebase';
 
 export default {
   data() {
@@ -81,7 +81,7 @@ export default {
         email: '',
         password: '',
       },
-      error: null
+      error: null,
     };
   },
   methods: {
@@ -89,17 +89,19 @@ export default {
       firebase
         .auth()
         .createUserWithEmailAndPassword(this.form.email, this.form.password)
-        .then(data => {
+        .then((data) => {
           data.user
             .updateProfile({
-              displayName: this.form.name
+              displayName: this.form.name,
             })
-            .then(() => {});
+            .then(() => {
+                console.log('');
+            });
         })
-        .catch(err => {
+        .catch((err) => {
           this.error = err.message;
         });
-    }
-  }
+    },
+  },
 };
 </script>
