@@ -22,7 +22,7 @@ const firebaseAuthConfig = {
 
 Firebase.initializeApp(firebaseAuthConfig);
 
-Firebase.auth().onAuthStateChanged((user: any) => {
+Firebase.auth().onAuthStateChanged((user) => {
   store.dispatch('fetchUser', user);
 });
 
