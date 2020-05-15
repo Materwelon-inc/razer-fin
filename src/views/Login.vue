@@ -13,10 +13,10 @@ export default {
   components: {},
   data() {
     return {
-        errors: [],
-        username: "",
-        password: "",
-        }
+      errors: [],
+      username: '',
+      password: '',
+    };
   },
 };
 </script>
