@@ -1,7 +1,5 @@
 <template>
-  <section>
-    Testing this shit bitch
-  </section>
+  <section>Testing this shit bitch</section>
 </template>
 
 <script>
@@ -13,10 +11,10 @@ export default {
   components: {},
   data() {
     return {
-        errors: [],
-        username: "",
-        password: "",
-        }
+      errors: [],
+      username: '',
+      password: '',
+    };
   },
 };
 </script>
