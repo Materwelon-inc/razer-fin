@@ -1,14 +1,19 @@
 <template>
-  <div class="container">
-    <div class="row">
+  <section class="hero is-medium">
+    <div class="hero-body">
       <form class="tile is-ancestor">
-        <div class="tile is-vertical is-3"></div>
-        <div class="tile is-vertical is-6" style="padding-left: 3.5em; padding-right: 3.5em;">
+        <div class="tile is-vertical is-4"></div>
+        <div class="tile is-vertical is-4" style="padding-left: 2.5em; padding-right: 2.5em;">
           <div class="card">
             <div class="card-content">
+              <b-message type="is-success" v-if="success">
+                {{ success }} <b><router-link to="/login">Click here to sign in</router-link></b>
+              </b-message>
               <b-message type="is-danger" v-if="error">
                 {{ error }}
               </b-message>
+
+              <img alt="Razer logo" src="../../assets/razer.png">
 
               <b-field label="Name">
                 <b-input v-model="form.name" placeholder="Your name" required />
@@ -37,7 +42,7 @@
         </div>
       </form>
     </div>
-  </div>
+  </section>
 </template>
 
 
@@ -54,6 +59,7 @@
           password: '',
           rememberMe: false,
         },
+        success: null,
         error: null,
       };
     },
@@ -71,8 +77,11 @@
                 displayName: this.form.name,
               })
               .then(() => {
-                console.log('');
+                this.success = 'Account successfully created!';
                 this.isSubmitting = false;
+                window.setTimeout(function () {
+                  this.$router.push({ path: 'login' });
+                }, 4000);
               });
           })
           .catch((err) => {
