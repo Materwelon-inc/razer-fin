@@ -23,7 +23,7 @@ const firebaseAuthConfig = {
 Firebase.initializeApp(firebaseAuthConfig);
 
 Firebase.auth().onAuthStateChanged((user) => {
-  store.dispatch("fetchUser", user);
+  store.dispatch('fetchUser', user);
 });
 
 Vue.config.productionTip = false;
