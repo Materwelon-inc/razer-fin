@@ -1,21 +1,34 @@
 <template>
   <div>
     <!-- start of contents -->
-    <div class="container is-fluid">
+    <div class="container is-fluid" id="firstcontainer">
+      <!-- start of slider -->
       <div class="box">
         <section>
-          <b-field label="Select preferred risk" >
-            <b-slider type="is-success" v-model= "initialState" :custom-formatter="val=>val+'%'"
-              size="is-medium" :min="0" rounded :max="6" step="0.01" >
-            </b-slider>
-          </b-field>
+          <div class="title is-4">Select preferred risk</div>
+          <b-slider type="is-success" v-model= "initialState" :custom-formatter="val=>val+'%'"
+            size="is-medium" :min="0" rounded :max="6" step="0.01" >
+            <template v-for="val in [0, 6]">
+              <b-slider-tick :value="val" :key="val">{{ val }}</b-slider-tick>
+            </template>
+          </b-slider>
         </section>
       </div>
       <!-- end of slider -->
+      <!-- start of bank loans -->
       <div class="box">
-        <div class="tile is-ancestor">
-        </div> 
+        <ul>
+            <li class="custmargin" v-for="x in example" :key="x">
+              <div class="title is-3" id="custtitle">{{ x.bankName }}</div>
+              <div class="subtitle is-5">{{ x.bankLoan }}</div>
+              <div class="subtitle is-6">Amount: ${{ x.amountMin }} to ${{ x.amountMax }}</div>
+              <div class="subtitle is-6">Max repayment duration: {{ x.maxPeriod }} year(s)</div>
+              <div class="subtitle is-6">Interest rate: {{ x.interest }}%</div>
+              <hr>
+            </li>
+        </ul>
       </div>
+      <!-- end of bank loans -->
     </div>
     <!-- end of contents -->
   </div>
@@ -26,7 +39,31 @@ export default {
   data() {
     return {
       initialState: [2, 4],
+      example: [
+        {
+          bankName: 'POSB', bankLoan: 'Housing Loan', amountMin: '50000', amountMax: '300000', maxPeriod: '30', interest: '3.5',
+        },
+        {
+          bankName: 'DBS', bankLoan: 'Education Loan', amountMin: '5000', amountMax: '40000', maxPeriod: '15', interest: '4.1',
+        },
+      ],
     };
   },
 };
 </script>
+
+<style scoped>
+#firstcontainer {
+  margin-top: 3%;
+}
+.custmargin div {
+  margin-bottom: 0px;
+  margin-top: 0px;
+}
+.custmargin #custtitle {
+  margin-bottom: 25px;
+}
+.custmargin hr {
+  border-top: 1px solid black;
+}
+</style>
