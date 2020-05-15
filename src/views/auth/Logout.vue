@@ -19,13 +19,13 @@
       }),
     },
     beforeMount() {
-      if (!user) this.$router.replace( {name: 'home'} );
+      if (!this.user) this.$router.replace({ name: 'home' });
     },
     mounted() {
       Firebase.auth().signOut()
         .then(() => {
           this.$router.replace({
-            name: 'home'
+            name: 'home',
           });
         });
     },
