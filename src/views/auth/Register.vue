@@ -31,7 +31,7 @@
             <footer class="card-footer">
               <p class="card-footer-item">
                 <b-button :loading="isSubmitting" type="is-primary" expanded
-                          v-on:click="submit">Submit</b-button>
+                          v-on:click="submit">Register</b-button>
               </p>
             </footer>
           </div>
