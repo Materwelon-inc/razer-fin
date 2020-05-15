@@ -7,7 +7,7 @@
           <div class="card">
             <div class="card-content">
               <b-message type="is-success" v-if="success">
-                {{ success }} <b><router-link to="/login">Click here to sign in</router-link></b>
+                {{ success }}
               </b-message>
               <b-message type="is-danger" v-if="error">
                 {{ error }}
@@ -35,7 +35,7 @@
             <footer class="card-footer">
               <p class="card-footer-item">
                 <b-button :loading="isSubmitting" type="is-primary" expanded
-                          v-on:click="submit">Submit</b-button>
+                          v-on:click="submit">Login</b-button>
               </p>
             </footer>
           </div>
@@ -68,23 +68,13 @@
         this.isSubmitting = true;
         this.error = null;
 
-        firebase.auth()
-          .createUserWithEmailAndPassword(this.form.email, this.form.password)
-          .then((data) => {
-            data.user
-              .updateProfile({
-                displayName: this.form.name,
-              })
-              .then(() => {
-                this.success = 'Account successfully created!';
-                this.isSubmitting = false;
-                window.setTimeout(function () {
-                  this.$router.push({ path: 'login' });
-                }, 4000);
-              });
+        firebase.auth().signInWithEmailAndPassword(this.form.email, this.form.password)
+          .then(data => {
+            this.$router.replace({ name: "Dashboard" });
           })
-          .catch((err) => {
+          .catch(err => {
             this.error = err.message;
+          }).finally(() => {
             this.isSubmitting = false;
           });
       },
