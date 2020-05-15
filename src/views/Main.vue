@@ -6,7 +6,7 @@
             <div class="box">
         <section>
           <div class="title is-4">Your credit score is </div>
-          <div class ="title is-3"> 3 </div>
+          <div class="title is-3"> 3 </div>
         </section>
       </div>
       <!-- start of slider -->
@@ -24,18 +24,20 @@
       <!-- end of slider -->
       <!-- start of bank loans -->
       <template>
-    <b-carousel class="is-success">
-        <b-carousel-item v-for="x in example" :key="x">
-                <div class="hero-body has-text-centered">
-              <div class="title is-3" id="custtitle">{{ x.bankName }}</div>
-              <div class="subtitle is-5">{{ x.bankLoan }}</div>
-              <div class="subtitle is-6">Amount: ${{ x.amountMin }} to ${{ x.amountMax }}</div>
-              <div class="subtitle is-6">Max repayment duration: {{ x.maxPeriod }} year(s)</div>
-              <div class="subtitle is-6">Interest rate: {{ x.interest }}%</div>
-                </div>
-        </b-carousel-item>
-    </b-carousel>
-    </template>
+        <div class="box">
+          <b-carousel id="caroustyle" :autoplay="false">
+            <b-carousel-item v-for="x in example" :key="x">
+              <div class="hero-body has-text-centered" id="carouitem">
+                <div class="title is-2" id="customtitle">{{ x.bankName }}</div>
+                <div class="subtitle is-4">{{ x.bankLoan }}</div>
+                <div class="subtitle is-6">Amount: ${{ x.amountMin }} to ${{ x.amountMax }}</div>
+                <div class="subtitle is-6">Max repayment duration: {{ x.maxPeriod }} year(s)</div>
+                <div class="subtitle is-6">Interest rate: {{ x.interest }}%</div>
+              </div>
+            </b-carousel-item>
+          </b-carousel>
+        </div>
+      </template>
       <!-- end of bank loans -->
     </div>
     <!-- end of contents -->
@@ -65,16 +67,21 @@ export default {
 
 <style scoped>
 #firstcontainer {
+  margin-bottom: 5%;
+}
+.box {
+  box-shadow: 5px 5px #a8a8a8;
+  border: 1px solid rgb(172, 172, 172);
+}
+#firstcontainer {
   margin-top: 3%;
 }
-.custmargin div {
+#caroustyle {
+  margin-top: 1px;
+}
+#carouitem div {
   margin-bottom: 0px;
   margin-top: 0px;
 }
-.custmargin #custtitle {
-  margin-bottom: 25px;
-}
-.custmargin hr {
-  border-top: 1px solid black;
-}
+
 </style>
