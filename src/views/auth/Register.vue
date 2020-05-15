@@ -27,10 +27,6 @@
                 <b-input type="password" v-model="form.password" password-reveal
                          placeholder="Your password" required />
               </b-field>
-
-              <b-field>
-                <b-checkbox v-model="form.rememberMe">Remember me</b-checkbox>
-              </b-field>
             </div>
             <footer class="card-footer">
               <p class="card-footer-item">
@@ -57,7 +53,6 @@
           name: '',
           email: '',
           password: '',
-          rememberMe: false,
         },
         success: null,
         error: null,
