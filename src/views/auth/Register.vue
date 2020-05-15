@@ -62,7 +62,6 @@
       submit() {
         this.isSubmitting = true;
         this.error = null;
-        console.dir(this.form.email);
 
         firebase.auth()
           .createUserWithEmailAndPassword(this.form.email, this.form.password)
@@ -75,7 +74,7 @@
                 this.success = 'Account successfully created!';
                 this.isSubmitting = false;
                 window.setTimeout(function () {
-                  this.$router.push({ path: 'login' });
+                  this.$router.replace({ name: 'Login' });
                 }, 4000);
               });
           })
