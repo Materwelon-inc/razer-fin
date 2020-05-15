@@ -15,10 +15,6 @@
 
               <img alt="Razer logo" src="../../assets/razer.png">
 
-              <b-field label="Name">
-                <b-input v-model="form.name" placeholder="Your name" required />
-              </b-field>
-
               <b-field label="Email">
                 <b-input type="email" v-model="form.email" placeholder="Your email" required />
               </b-field>
@@ -69,12 +65,13 @@
         this.error = null;
 
         firebase.auth().signInWithEmailAndPassword(this.form.email, this.form.password)
-          .then(data => {
-            this.$router.replace({ name: "Dashboard" });
+          .then((data) => {
+            this.$router.replace({ name: 'Dashboard' });
           })
-          .catch(err => {
+          .catch((err) => {
             this.error = err.message;
-          }).finally(() => {
+          })
+          .finally(() => {
             this.isSubmitting = false;
           });
       },
