@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+<<<<<<< HEAD
     <b-navbar type="is-success" id="nav">
         <template slot="brand">
             <figure class="image is-48x48" id="razerlogo">
@@ -21,6 +22,14 @@
             </b-navbar-item>
         </template>
     </b-navbar>
+=======
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link> |
+      <router-link to="/register">Register</router-link> |
+      <router-link to="/login">Login</router-link>
+    </div>
+>>>>>>> develop
     <router-view/>
   </div>
 </template>

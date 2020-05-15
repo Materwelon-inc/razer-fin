@@ -1,8 +1,15 @@
 import Vue from 'vue';
 import VueRouter, { RouteConfig } from 'vue-router';
+import store from '../store';
 import Home from '../views/Home.vue';
+import Register from '../views/auth/Register.vue';
 
 Vue.use(VueRouter);
+
+function guardRoute(to: any, from: any, next: any) {
+  if (to.name !== 'Login' && !store.state.user.loggedIn) next({ name: 'Login' });
+  else next();
+}
 
 const routes: Array<RouteConfig> = [
   {
@@ -19,16 +26,37 @@ const routes: Array<RouteConfig> = [
     component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
   },
   {
-    path: '/main',
-    name: 'Main',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Main.vue'),
+    path: '/register',
+    name: 'Register',
+    component: Register,
   },
-];
-
-const router = new VueRouter({
+  {
+    path: '/login',
+    name: 'Login',
+    // route level code-splitting
+    // this generates a separate chunk (login.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "login" */ '../views/auth/Login.vue'),
+  },
+  {
+    path: '/logout',
+    name: 'Logout',
+    beforeEnter: guardRoute,
+    // route level code-splitting
+    // this generates a separate chunk (logout.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "logout" */ '../views/auth/Logout.vue'),
+  },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    beforeEnter: guardRoute,
+    // route level code-splitting
+    // this generates a separate chunk (dashboard.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "dashboard" */ '../views/dashboard/Index.vue'),
+./views/Login.vue'),
+uter({
   routes,
 });
 

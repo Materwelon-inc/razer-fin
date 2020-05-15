@@ -14,7 +14,7 @@
         <section>
           <div class="title is-4">Indicate your risk appetite</div>
           <b-slider type="is-success" v-model= "initialState" :custom-formatter="val=>val+'%'"
-            size="is-medium" :min="0" rounded :max="6" step="0.01" >
+            size="is-large" :min="0" rounded :max="6" step="0.01" >
             <template v-for="val in [0, 6]">
               <b-slider-tick :value="val" :key="val">{{ val }}</b-slider-tick>
             </template>
@@ -68,6 +68,8 @@ export default {
 <style scoped>
 #firstcontainer {
   margin-bottom: 5%;
+  margin-left: 10%;
+  margin-right: 10%;
 }
 .box {
   box-shadow: 5px 5px #a8a8a8;
