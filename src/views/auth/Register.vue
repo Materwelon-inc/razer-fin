@@ -1,107 +1,85 @@
 <template>
   <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-md-8">
-        <div class="card">
-          <div class="card-header">Register</div>
-          <div class="card-body">
-            <div v-if="error" class="alert alert-danger">{{error}}</div>
-            <form action="#" @submit.prevent="submit">
-              <div class="form-group row">
-                <label for="name" class="col-md-4 col-form-label text-md-right">Name</label>
+    <div class="row">
+      <form class="tile is-ancestor">
+        <div class="tile is-vertical is-3"></div>
+        <div class="tile is-vertical is-6" style="padding-left: 3.5em; padding-right: 3.5em;">
+          <div class="card">
+            <div class="card-content">
+              <b-message type="is-danger" v-if="error">
+                {{ error }}
+              </b-message>
 
-                <div class="col-md-6">
-                  <input
-                    id="name"
-                    type="name"
-                    class="form-control"
-                    name="name"
-                    value
-                    required
-                    autofocus
-                    v-model="form.name"
-                  />
-                </div>
-              </div>
+              <b-field label="Name">
+                <b-input v-model="form.name" placeholder="Your name" required />
+              </b-field>
 
-              <div class="form-group row">
-                <label for="email" class="col-md-4 col-form-label text-md-right">Email</label>
+              <b-field label="Email">
+                <b-input type="email" v-model="form.email" placeholder="Your email" required />
+              </b-field>
 
-                <div class="col-md-6">
-                  <input
-                    id="email"
-                    type="email"
-                    class="form-control"
-                    name="email"
-                    value
-                    required
-                    autofocus
-                    v-model="form.email"
-                  />
-                </div>
-              </div>
+              <b-field label="Password">
+                <b-input type="password" v-model="form.password" password-reveal
+                         placeholder="Your password" required />
+              </b-field>
 
-              <div class="form-group row">
-                <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
-
-                <div class="col-md-6">
-                  <input
-                    id="password"
-                    type="password"
-                    class="form-control"
-                    name="password"
-                    required
-                    v-model="form.password"
-                  />
-                </div>
-              </div>
-
-              <div class="form-group row mb-0">
-                <div class="col-md-8 offset-md-4">
-                  <button type="submit" class="btn btn-primary">Register</button>
-                </div>
-              </div>
-            </form>
+              <b-field>
+                <b-checkbox v-model="form.rememberMe">Remember me</b-checkbox>
+              </b-field>
+            </div>
+            <footer class="card-footer">
+              <p class="card-footer-item">
+                <b-button :loading="isSubmitting" type="is-primary" expanded
+                          v-on:click="submit">Submit</b-button>
+              </p>
+            </footer>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   </div>
 </template>
 
 
 <script>
-import firebase from 'firebase';
+  import firebase from 'firebase';
 
-export default {
-  data() {
-    return {
-      form: {
-        name: '',
-        email: '',
-        password: '',
-      },
-      error: null,
-    };
-  },
-  methods: {
-    submit() {
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(this.form.email, this.form.password)
-        .then((data) => {
-          data.user
-            .updateProfile({
-              displayName: this.form.name,
-            })
-            .then(() => {
-                console.log('');
-            });
-        })
-        .catch((err) => {
-          this.error = err.message;
-        });
+  export default {
+    data() {
+      return {
+        isSubmitting: false,
+        form: {
+          name: '',
+          email: '',
+          password: '',
+          rememberMe: false,
+        },
+        error: null,
+      };
     },
-  },
-};
+    methods: {
+      submit() {
+        this.isSubmitting = true;
+        this.error = null;
+        console.dir(this.form.email);
+
+        firebase.auth()
+          .createUserWithEmailAndPassword(this.form.email, this.form.password)
+          .then((data) => {
+            data.user
+              .updateProfile({
+                displayName: this.form.name,
+              })
+              .then(() => {
+                console.log('');
+                this.isSubmitting = false;
+              });
+          })
+          .catch((err) => {
+            this.error = err.message;
+            this.isSubmitting = false;
+          });
+      },
+    },
+  };
 </script>
