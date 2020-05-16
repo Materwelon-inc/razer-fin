@@ -1,5 +1,6 @@
 export class MambuConfig {
   static baseUrl = 'https://razerhackathon.sandbox.mambu.com';
+  // TODO: We of course have to isolate this in a vault, but its dev mode for hackathon so..
   static username = 'Team54';
   static password = 'passBF20458C1';
   static branchId = 'team54';
