@@ -2,6 +2,7 @@
   <div>
     <!-- start of contents -->
     <div class="container is-fluid" id="firstcontainer">
+      {{liveUser}}
       <!--- start of credit score -->
             <div class="box">
         <section>
@@ -46,6 +47,7 @@
 
 <script>
   import { mapGetters } from 'vuex';
+  import firebase from 'firebase';
 
   export default {
     name: 'dashboard',
@@ -54,6 +56,13 @@
       ...mapGetters({
         user: 'user',
       }),
+      liveUser() {
+        if (this.user && this.user.data && this.user.data.email) {
+          return firebase.auth().currentUser;
+        }
+
+        return null;
+      },
     },
     data() {
     return {
