@@ -52,6 +52,15 @@ const routes: Array<RouteConfig> = [
     // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "dashboard" */ '../views/dashboard/KYC.vue'),
   },
+  {
+    path: '/account',
+    name: 'Account',
+    beforeEnter: guardRoute,
+    // route level code-splitting
+    // this generates a separate chunk (dashboard.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () => import(/* webpackChunkName: "dashboard" */ '../views/dashboard/account.vue'),
+  },
 ];
 
 const router = new VueRouter({

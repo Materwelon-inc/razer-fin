@@ -11,6 +11,9 @@
         <b-navbar-item tag="router-link" :to="{ path: '/dashboard' }">
             Home
         </b-navbar-item>
+        <b-navbar-item tag="router-link" :to="{ path: '/account' }">
+            My Account
+        </b-navbar-item>
       </div>
       <template>
         <div class="navbar-menu">
