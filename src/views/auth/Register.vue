@@ -26,8 +26,6 @@
                 <b-input type="password" v-model="form.password" password-reveal
                          placeholder="Your password" required />
               </b-field>
-          <input type="file" accept="image/*" @change="onFileChanged">
-          <b-button @click="onUpload" type="is-success" outlined>Upload!</b-button>
             </div>
             <footer class="card-footer">
               <p class="card-footer-item">
@@ -95,29 +93,6 @@ export default {
           this.isSubmitting = false;
         });
     },
-    onFileChanged(event) {
-    // eslint-disable-next-line
-    // this.selectedFile = event.target.files[0]
-    const file = event.target.files[0];
-   const reader = new FileReader();
-   reader.readAsDataURL(file);
-   reader.onload = function () {
-     console.log(reader.result);
-   };
-   reader.onerror = function (error) {
-     console.log('Error: ', error);
-   };
-  },
-  onUpload() {
-    // upload file, get it from this.selectedFile
-    console.log(this.selectedFile);
-    const formData = new FormData();
-    formData.append('myFile', this.selectedFile, this.selectedFile.name);
-    axios.post('https://niw1itg937.execute-api.ap-southeast-1.amazonaws.com/Prod/verify', formData)
-      .then((res) => {
-        console.log(res);
-      });
-  },
   },
 };
 </script>

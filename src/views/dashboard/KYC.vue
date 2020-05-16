@@ -64,24 +64,20 @@
                                     <hr>
                                     <p class="subtitle is-6">Front:</p>
                                     <b-field class="file">
-                                        <b-upload v-model="file">
-                                            <a class="button is-primary">
-                                                <b-icon icon="upload" id="uploadbutton1"></b-icon>
-                                                <span>Click to upload</span>
-                                            </a>
-                                        </b-upload>
+                                                <input type="file" accept="image/*"
+                                            @change="onFileChanged">
+                                            <b-button @click="onUpload" type="is-success"
+                                             outlined>Upload!</b-button>
                                         <span class="file-name" v-if="frontIC">
                                             {{ frontIC.name }}
                                         </span>
                                     </b-field>
                                     <p class="subtitle is-6">Back:</p>
                                     <b-field class="file">
-                                        <b-upload v-model="file">
-                                            <a class="button is-primary" id="uploadbutton2">
-                                                <b-icon icon="upload"></b-icon>
-                                                <span>Click to upload</span>
-                                            </a>
-                                        </b-upload>
+                                        <input type="file" accept="image/*"
+                                            @change="onFileChanged">
+                                            <b-button @click="onUpload" type="is-success"
+                                             outlined>Upload!</b-button>
                                         <span class="file-name" v-if="backIC">
                                             {{ backIC.name }}
                                         </span>
@@ -163,3 +159,35 @@
 }
 
 </style>
+
+<script>
+import axios from 'axios';
+
+export default {
+    methods: {
+    onFileChanged(event) {
+    // eslint-disable-next-line
+    // this.selectedFile = event.target.files[0]
+    const file = event.target.files[0];
+   const reader = new FileReader();
+   reader.readAsDataURL(file);
+   reader.onload = function () {
+     console.log(reader.result);
+   };
+   reader.onerror = function (error) {
+     console.log('Error: ', error);
+   };
+  },
+  onUpload() {
+    // upload file, get it from this.selectedFile
+    console.log(this.selectedFile);
+    const formData = new FormData();
+    formData.append('myFile', this.selectedFile, this.selectedFile.name);
+    axios.post('https://niw1itg937.execute-api.ap-southeast-1.amazonaws.com/Prod/verify', formData)
+      .then((res) => {
+        console.log(res);
+      });
+  },
+    },
+};
+</script>
