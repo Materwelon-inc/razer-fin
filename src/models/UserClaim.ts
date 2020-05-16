@@ -9,4 +9,3 @@ class UserClaim {
     this.claimvalue = value;
   }
 }
-
