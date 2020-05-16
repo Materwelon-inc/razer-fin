@@ -17,7 +17,7 @@ export default {
         firstName: user.first_name,
         lastName: user.last_name,
         preferredLanguage: "ENGLISH",
-        notes: 'Enjoys playing RPG',
+        notes: '',
         assignedBranchKey: MambuConfig.branchKey,
       },
       addresses: [], // Let's blank this off for now
@@ -76,9 +76,33 @@ export default {
         })
     });
   },
-  createCurrentAccount() {
+  createCurrentAccount(productType: string) {
+    // Obtain the user first
+
+    // Make sure he/she has initialised as a mambu client
+
+    // Then setup the payload
+    let payload = {
+      savingsAccount: {
+        name: 'Digital Account',
+        accountHolderType: 'CLIENT',
+        accountHolderKey: null, // To bind from userclaims
+        accountState: 'APPROVED',
+        productTypeKey: productType,
+        currencyCode: 'SGD',
+        allowOverdraft: 'true',
+        overdraftLimit: '100',
+        overdraftInterestSettings: {
+          interestRate: 5,
+        },
+        interestSettings: {
+          interestRate: '1.25'
+        },
+      }
+    };
+
     return new Promise((resolve, reject) => {
-      axios.post(MambuConfig.baseUrl + 'api/', null, {
+      axios.post(MambuConfig.baseUrl + 'api/', payload, {
         auth: {
           username: MambuConfig.username,
           password: MambuConfig.password,
