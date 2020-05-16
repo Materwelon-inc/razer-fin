@@ -1,0 +1,2 @@
+*.vcproject 	eol=crlf
+*.sh 		eol=lf
