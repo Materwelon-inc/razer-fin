@@ -129,20 +129,19 @@
                 </b-step-item>
 
                 <template
-                    class="has-text-centered"
-                    v-if="customNavigation"
+                    class="buttons has-text-centered"
                     slot="navigation"
                     slot-scope="{previous, next}">
                     <b-button
                         outlined
-                        type="is-success"
+                        icon-left="chevron-left"
                         :disabled="previous.disabled"
                         @click.prevent="previous.action">
                         Previous
                     </b-button>
                     <b-button
                         outlined
-                        type="is-success"
+                        icon-left="chevron-right"
                         :disabled="next.disabled"
                         @click.prevent="next.action">
                         Next
