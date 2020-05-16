@@ -14,7 +14,6 @@
               </b-message>
 
               <img alt="Razer logo" src="../../assets/razer.png">
-
               <b-field label="Name">
                 <b-input v-model="form.name" placeholder="Your name" required />
               </b-field>
@@ -30,7 +29,7 @@
             </div>
             <footer class="card-footer">
               <p class="card-footer-item">
-                <b-button :loading="isSubmitting" type="is-primary" expanded
+                <b-button :loading="isSubmitting" type="is-success" expanded
                           v-on:click="submit">Register</b-button>
               </p>
             </footer>
@@ -41,58 +40,59 @@
   </section>
 </template>
 
-
 <script>
-  import firebase from 'firebase';
-  import { mapState } from 'vuex';
+import firebase from 'firebase';
+import { mapState } from 'vuex';
 
-  export default {
-    name: 'Register',
-    computed: {
-      ...mapState({
-        user: 'user',
-      }),
-    },
-    data() {
-      return {
-        isSubmitting: false,
-        form: {
-          name: '',
-          email: '',
-          password: '',
-        },
-        success: null,
-        error: null,
-      };
-    },
-    beforeMount() {
-      if (this.user.loggedIn) this.$router.replace({ name: 'Dashboard' });
-    },
-    methods: {
-      submit() {
-        this.isSubmitting = true;
-        this.error = null;
+import axios from 'axios';
 
-        firebase.auth()
-          .createUserWithEmailAndPassword(this.form.email, this.form.password)
-          .then((data) => {
-            data.user
-              .updateProfile({
-                displayName: this.form.name,
-              })
-              .then(() => {
-                this.success = 'Account successfully created!';
-                this.isSubmitting = false;
-                window.setTimeout(function () {
-                  this.$router.replace({ name: 'Login' });
-                }, 4000);
-              });
-          })
-          .catch((err) => {
-            this.error = err.message;
-            this.isSubmitting = false;
-          });
+export default {
+  name: 'Register',
+  computed: {
+    ...mapState({
+      user: 'user',
+    }),
+  },
+  data() {
+    return {
+      isSubmitting: false,
+      form: {
+        name: '',
+        email: '',
+        password: '',
       },
+      success: null,
+      error: null,
+      selectedFile: null,
+    };
+  },
+  beforeMount() {
+    if (this.user.loggedIn) this.$router.replace({ name: 'Dashboard' });
+  },
+  methods: {
+    submit() {
+      this.isSubmitting = true;
+      this.error = null;
+      firebase.auth()
+        .createUserWithEmailAndPassword(this.form.email, this.form.password)
+        .then((data) => {
+          data.user
+            .updateProfile({
+              displayName: this.form.name,
+            })
+            .then(() => {
+              this.success = 'Account successfully created!';
+              this.isSubmitting = false;
+              window.setTimeout(function () {
+                this.$router.replace({ name: 'Login' });
+              }, 4000);
+            });
+        })
+        .catch((err) => {
+          this.error = err.message;
+          this.isSubmitting = false;
+        });
     },
-  };
+  },
+};
 </script>
