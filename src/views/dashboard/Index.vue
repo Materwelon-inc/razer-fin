@@ -2,12 +2,11 @@
   <div>
     <!-- start of contents -->
     <div class="container is-fluid" id="firstcontainer">
-      {{liveUser}}
       <!--- start of credit score -->
-            <div class="box">
+      <div class="box">
         <section>
-          <div class="title is-4">Your credit score is </div>
-          <div class="title is-3"> {{ creditScore }} </div>
+          <div class="title is-4">Your credit score is</div>
+          <div class="title is-3">{{ creditScore }}</div>
         </section>
       </div>
       <!-- start of slider -->
@@ -15,9 +14,16 @@
         <section>
           <div class="title is-4">Indicate your desired interest rate</div>
           <div class="subtitle is-6">Available plans will be shown below!</div>
-          <b-slider type="is-success" :custom-formatter="val=>val+'%'"
+          <b-slider
+            type="is-success"
+            :custom-formatter="val=>val+'%'"
             v-model="riskVal"
-            size="is-large" :min="0" rounded :max="6" :step="0.01">
+            size="is-large"
+            :min="0"
+            rounded
+            :max="6"
+            :step="0.01"
+          >
             <template v-for="val in [0, 6]">
               <b-slider-tick :value="val" :key="val">{{ val }}</b-slider-tick>
             </template>
@@ -28,21 +34,18 @@
       <!-- start of carousel bank loans -->
       <template>
         <div class="box">
-            <div id="moreinfo">
-              <b-tooltip
-                  class="infotooltip"
-                  label="If no loans are available to you, verify your account first!"
-                  position="is-left"
-                  size="is-medium"
-                  multilined
-                  type="is-success">
-                  <b-button
-                    class="button"
-                    rounded>
-                      ?
-                  </b-button>
-              </b-tooltip>
-            </div>
+          <div id="moreinfo">
+            <b-tooltip
+              class="infotooltip"
+              label="If no loans are available to you, verify your account first!"
+              position="is-left"
+              size="is-medium"
+              multilined
+              type="is-success"
+            >
+              <b-button class="button" rounded>?</b-button>
+            </b-tooltip>
+          </div>
           <b-carousel id="caroustyle" :autoplay="false">
             <b-carousel-item v-for="x in carouData" :key="x">
               <div class="hero-body has-text-centered" id="carouitem">
@@ -51,56 +54,60 @@
                 <div class="subtitle is-6">Amount: ${{ x.amountMin }} to ${{ x.amountMax }}</div>
                 <div class="subtitle is-6">Max repayment duration: {{ x.maxPeriod }} year(s)</div>
                 <div class="subtitle is-6">Interest rate: {{ x.interest }}%</div>
-                <hr>
+                <hr />
                 <b-button
                   :type="availColor(x.avail)"
                   :disabled="!x.avail"
-                  @click="isComponentModalActive = true">
-                  Apply
-                </b-button>
-                <b-modal :active.sync="isComponentModalActive"
+                  @click="isComponentModalActive = true"
+                >Apply</b-button>
+                <b-modal
+                  :active.sync="isComponentModalActive"
                   has-modal-card
                   trap-focus
                   :destroy-on-hide="false"
                   aria-role="dialog"
-                  aria-modal>
+                  aria-modal
+                >
                   <div class="modal-card" style="width: auto">
                     <header class="modal-card-head">
-                        <p class="modal-card-title">Login</p>
+                      <p class="modal-card-title">Login</p>
                     </header>
                     <section class="modal-card-body">
-                        <div class="box">
-                          <section>
-                            <div class="title is-4">Amount</div>
-                            <b-slider type="is-success" :custom-formatter="val=>'$'+val"
-                              v-model="riskVal"
-                              size="is-large"
-                              :min="x.amountMin"
-                              rounded
-                              :max="x.amountMax"
-                              :step="0.01">
-                              <template v-for="val in [x.amountMin, x.amountMax]">
-                                <b-slider-tick :value="val" :key="val">{{ val }}</b-slider-tick>
-                              </template>
-                            </b-slider>
-                          </section>
-                        </div>
+                      <div class="box">
+                        <section>
+                          <div class="title is-4">Amount</div>
+                          <b-slider
+                            type="is-success"
+                            :custom-formatter="val=>'$'+val"
+                            v-model="riskVal"
+                            size="is-large"
+                            :min="x.amountMin"
+                            rounded
+                            :max="x.amountMax"
+                            :step="0.01"
+                          >
+                            <template v-for="val in [x.amountMin, x.amountMax]">
+                              <b-slider-tick :value="val" :key="val">{{ val }}</b-slider-tick>
+                            </template>
+                          </b-slider>
+                        </section>
+                      </div>
 
-                        <b-field label="Password">
-                            <b-input
-                                type="password"
-                                :value="password"
-                                password-reveal
-                                placeholder="Your password"
-                                required>
-                            </b-input>
-                        </b-field>
+                      <b-field label="Password">
+                        <b-input
+                          type="password"
+                          :value="password"
+                          password-reveal
+                          placeholder="Your password"
+                          required
+                        ></b-input>
+                      </b-field>
 
-                        <b-checkbox>Remember me</b-checkbox>
+                      <b-checkbox>Remember me</b-checkbox>
                     </section>
                     <footer class="modal-card-foot">
-                        <button class="button" type="button" @click="$parent.close()">Close</button>
-                        <button class="button is-primary">Login</button>
+                      <button class="button" type="button" @click="$parent.close()">Close</button>
+                      <button class="button is-primary">Login</button>
                     </footer>
                   </div>
                 </b-modal>
@@ -116,25 +123,25 @@
 </template>
 
 <script>
-  import { mapGetters } from 'vuex';
-  import firebase from 'firebase';
+import { mapGetters } from 'vuex';
+import firebase from 'firebase';
 
-  export default {
-    name: 'dashboard',
-    computed: {
-      // map `this.user` to `this.$store.getters.user`
-      ...mapGetters({
-        user: 'user',
-      }),
-      liveUser() {
-        if (this.user && this.user.data && this.user.data.email) {
-          return firebase.auth().currentUser;
-        }
+export default {
+  name: 'dashboard',
+  computed: {
+    // map `this.user` to `this.$store.getters.user`
+    ...mapGetters({
+      user: 'user',
+    }),
+    liveUser() {
+      if (this.user && this.user.data && this.user.data.email) {
+        return firebase.auth().currentUser;
+      }
 
-        return null;
-      },
+      return null;
     },
-    data() {
+  },
+  data() {
     return {
       isComponentModalActive: false,
       formProps: {
@@ -230,5 +237,4 @@
   margin-bottom: 0px;
   margin-top: 0px;
 }
-
 </style>
