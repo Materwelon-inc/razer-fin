@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Buefy from 'buefy';
 import 'buefy/dist/buefy.css';
+import * as fb from './firebaseCore';
 
 import App from './App.vue';
 import './registerServiceWorker';
@@ -10,6 +11,10 @@ import store from './store';
 Vue.use(Buefy);
 
 Vue.config.productionTip = false;
+
+fb.auth.onAuthStateChanged((user) => {
+  store.dispatch('fetchUser', user);
+});
 
 new Vue({
   router,
