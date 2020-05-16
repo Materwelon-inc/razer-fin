@@ -1,4 +1,5 @@
 export class MambuConfig {
+  static baseUrl = 'https://razerhackathon.sandbox.mambu.com/';
   static RequiredProperties = [ 'first_name', 'last_name', 'preferred_language', 'notes', 'assigned_branch_key', 'country_of_birth' ];
   static MambuProducts = {
     CurrentAccount: '8a8e878471bf59cf0171bf6979700440',
