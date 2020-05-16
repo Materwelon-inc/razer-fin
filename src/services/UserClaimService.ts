@@ -4,6 +4,9 @@ import Firebase from 'firebase';
 const userClaims = Firebase.firestore().collection('UserClaims');
 
 export default {
+  getClaim(key: string) {
+    return;
+  },
   createUserClaim(userClaim: UserClaim) {
     return new Promise((resolve, reject) => {
       userClaims.add(userClaim)
