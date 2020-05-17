@@ -1,156 +1,98 @@
 <template>
-    <div class="container" id="main-container">
-        <div class="box">
-        <section>
-            <b-steps
-                v-model="activeStep"
-                :animated="isAnimated"
-                :rounded="isRounded"
-                :has-navigation="hasNavigation"
-                :icon-prev="prevIcon"
-                :icon-next="nextIcon"
-                :label-position="labelPosition"
-                :mobile-mode="mobileMode">
-                <!-- Personal particulars fields -->
-                <b-step-item class="step-margin" step="1"
-                    id="particulars"
-                    label="Identification" :clickable="isStepsClickable">
-                    <h1 class="title has-text-centered">Identification</h1>
-                    <p class="subtitle is-6 has-text-centered">Please key in your particulars</p>
+  <div class="container" id="main-container">
+    <div class="box">
+      <section>
+        <b-tabs>
+            <b-tab-item label="Identification">
+                <h1 class="title has-text-centered">Identification</h1>
+                <p class="subtitle is-6 has-text-centered">Please key in your particulars</p>
+                <section class="container">
                     <b-field grouped>
-                        <b-field label="First Name" :label-position='labelPosition'>
-                            <b-input v-model="form.firstName" />
+                        <b-field label="First Name"
+                            :label-position="labelPosition"
+                            type="text">
+                            <b-input v-model="particularsForm.firstName" />
                         </b-field>
+                        <b-field label="Last name"
+                            :label-position="labelPosition"
+                            type="text">
+                            <b-input v-model="particularsForm.lastName" />
+                        </b-field>
+                    </b-field>
+                    <b-field label="Email"
+                        :label-position="labelPosition"
+                        type="email">
+                        <b-input v-model="particularsForm.email" />
+                    </b-field>
+                    <b-field label="Address" :label-position="labelPosition">
+                        <b-input v-model="particularsForm.addr" />
+                    </b-field>
+                    <b-field grouped>
                         <b-field
-                        label="Last name"
-                        :label-position='labelPosition'>
-                            <b-input v-model="form.lastName" />
+                            label="Preferred language"
+                            id="languagefield"
+                            :label-position="labelPosition"
+                            >
+                            <b-select v-model="particularsForm.prefLang"
+                                placeholder="Select a language">
+                                <option value="English">English</option>
+                                <option value="Chinese">Chinese</option>
+                                <option value="Malay">Malay</option>
+                                <option value="Tamil">Tamil</option>
+                            </b-select>
                         </b-field>
                     </b-field>
-                    <b-field label="Email" :label-position='labelPosition'>
-                        <b-input v-model="form.email" />
-                    </b-field>
-                    <b-field label="Address" :label-position='labelPosition'>
-                        <b-input v-model="form.addr" />
-                    </b-field>
-                    <b-field grouped>
-                      <b-field label="Preferred language"
-                        id="languagefield"
-                        :label-position='labelPosition'>
-                          <b-select v-model="form.prefLang"
-                            placeholder="Select a language"
-                            >
-                              <option value="English">English</option>
-                              <option value="Chinese">Chinese</option>
-                              <option value="Malay">Malay</option>
-                              <option value="Tamil">Tamil</option>
-                          </b-select>
-                      </b-field>
-                      <b-field>
-                        <b-input placeholder="Others" v-model="form.prefLang" />
-                      </b-field>
-                    </b-field>
-                    <div class="buttons">
-                      <b-button id="cancelbutton" type="is-danger">Back</b-button>
-                      <b-button
-                        id="savebutton"
-                        type="is-success"
-                        v-on:click="saveParticulars"
-                        >
-                        Save
-                      </b-button>
+                </section>
+                <b-field style="margin-top:2em">
+                    <b-button type="is-success" @click="submitParticulars">Save</b-button>
+                </b-field>
+            </b-tab-item>
+            <b-tab-item label="Upload">
+                <h1 class="title has-text-centered">Upload your ID</h1>
+                <hr />
+                <p
+                class="subtitle is-6 has-text-centered"
+                >Please upload a coloured copy of both sides of ID card for verification.</p>
+                <div class="tile is-ancestor" id="tile-margin">
+                <div class="tile">
+                    <div class="container">
+                    <p class="subtitle is-6" id="imagesmustinclude">IMAGES MUST INCLUDE</p>
+                    <img src="@/assets/frontic.jpg" />
+                    <img src="@/assets/backic.jpg" />
                     </div>
-                </b-step-item>
-                <!-- NRIC Photos -->
-                <b-step-item class="step-margin" step="2"
-                    label="Upload" :clickable="isStepsClickable"
-                    :type="{'is-success': isProfileSuccess}">
-                    <h1 class="title has-text-centered">Upload your ID</h1>
-                    <hr>
-                    <p class="subtitle is-6 has-text-centered">
-                        Please upload a coloured copy of both sides of ID card for verification.
-                    </p>
-                    <div class="tile is-ancestor" id="tile-margin">
-                        <div class="tile">
-                            <div class="container">
-                                <p class="subtitle is-6" id="imagesmustinclude">
-                                    IMAGES MUST INCLUDE
-                                </p>
-                                <img src="@/assets/frontic.jpg">
-                                <img src="@/assets/backic.jpg">
-                            </div>
-                        </div>
-                        <div class="tile">
-                            <div class="container">
-                                <div class="content">
-                                    <ul>
-                                        <li>Coloured photo</li>
-                                        <li>Full name</li>
-                                        <li>Date of birth</li>
-                                        <li>Valid expiration date</li>
-                                        <li>NRIC</li>
-                                    </ul>
-                                    <hr>
-                                    <p class="subtitle is-6">Front:</p>
-                                    <b-field class="file">
-                                                <input type="file" accept="image/*"
-                                            @change="onFileChanged">
-                                            <b-button @click="onUpload" type="is-success"
-                                             outlined>Upload!</b-button>
-                                        <span class="file-name" v-if="frontIC">
-                                            {{ frontIC.name }}
-                                        </span>
-                                    </b-field>
-                                    <p class="subtitle is-6">Back:</p>
-                                    <b-field class="file">
-                                        <input type="file" accept="image/*"
-                                            @change="onFileChanged">
-                                            <b-button @click="onUpload" type="is-success"
-                                             outlined>Upload!</b-button>
-                                        <span class="file-name" v-if="backIC">
-                                            {{ backIC.name }}
-                                        </span>
-                                    </b-field>
-                                </div>
-                            </div>
-                        </div>
+                </div>
+                <div class="tile">
+                    <div class="container">
+                    <div class="content">
+                        <ul>
+                        <li>Coloured photo</li>
+                        <li>Full name</li>
+                        <li>Date of birth</li>
+                        <li>Valid expiration date</li>
+                        <li>NRIC</li>
+                        </ul>
+                        <hr />
+                        <p class="subtitle is-6">Front:</p>
+                        <b-field class="file">
+                        <input type="file" accept="image/*" @change="onFileChanged" />
+                        <b-button type="is-success" outlined>Upload!</b-button>
+                        <!-- <span class="file-name" v-if="frontIC">{{ frontIC.name }}</span> -->
+                        </b-field>
+                        <p class="subtitle is-6">Back:</p>
+                        <b-field class="file">
+                        <input type="file" accept="image/*" @change="onFileChanged" />
+                        <b-button type="is-success" outlined>Upload!</b-button>
+                        <!-- <span class="file-name" v-if="backIC">{{ backIC.name }}</span> -->
+                        </b-field>
                     </div>
-                </b-step-item>
-                <!-- Finish step -->
-                <b-step-item class="step-margin" :step="3" label="Finish"
-                    :clickable="isStepsClickable" disabled>
-                    <h1 class="title has-text-centered is-spaced">Finish</h1>
-                    <p class="subtitle is-6 has-text-centered is-spaced">
-                        Done! All documents submitted!
-                    </p>
-                    <p class="subtitle is-6 has-text-centered">
-                        Please give us up to 3 working days to verify your account.
-                    </p>
-                </b-step-item>
-
-                <template
-                    class="buttons has-text-centered"
-                    slot="navigation"
-                    slot-scope="{previous, next}">
-                    <b-button
-                        outlined
-                        icon-left="chevron-left"
-                        :disabled="previous.disabled"
-                        @click.prevent="previous.action">
-                        Previous
-                    </b-button>
-                    <b-button
-                        outlined
-                        icon-left="chevron-right"
-                        :disabled="next.disabled"
-                        @click.prevent="next.action">
-                        Next
-                    </b-button>
-                </template>
-            </b-steps>
-        </section>
-        </div>
+                    </div>
+                </div>
+                </div>
+            </b-tab-item>
+        </b-tabs>
+      </section>
     </div>
+  </div>
 </template>
 
 <style scoped>
@@ -159,25 +101,25 @@
   border: 1px solid rgb(172, 172, 172);
 }
 #main-container {
-    margin-top: 5%;
+  margin-top: 5%;
 }
 
 #tile-margin {
-    margin-left: 25%;
-    margin-right: 25%;
+  margin-left: 25%;
+  margin-right: 25%;
 }
 #imagesmustinclude {
-    margin-top: 5%;
-    margin-bottom: 2%;
-    margin-left: 2%;
-    font-weight: bold;
+  margin-top: 5%;
+  margin-bottom: 2%;
+  margin-left: 2%;
+  font-weight: bold;
 }
 .content {
-    margin-left: 20%;
-    margin-top: 12%;
+  margin-left: 20%;
+  margin-top: 12%;
 }
 #particulars {
-    margin: auto;
+  margin: auto;
 }
 .buttons {
   margin-left: 35%;
@@ -186,8 +128,24 @@
 
 <script>
 import axios from 'axios';
+import firebase from 'firebase';
+import { mapGetters } from 'vuex';
+import UserClaim from '@/models/UserClaim';
+import UserClaimService from '../../services/UserClaimService';
 
 export default {
+    computed: {
+        ...mapGetters({
+            user: 'user',
+        }),
+        liveUser() {
+            if (this.user && this.user.data && this.user.data.email) {
+                return firebase.auth().currentUser;
+            }
+
+            return null;
+        },
+    },
   methods: {
     onFileChanged(event) {
       // eslint-disable-next-line
@@ -202,28 +160,79 @@ export default {
         console.log('Error: ', error);
       };
     },
-    onUpload() {
-      // upload file, get it from this.selectedFile
-      console.log(this.selectedFile);
-      const formData = new FormData();
-      formData.append('myFile', this.selectedFile, this.selectedFile.name);
-      axios.post('https://niw1itg937.execute-api.ap-southeast-1.amazonaws.com/Prod/verify', formData)
-      .then((res) => {
-        console.log(res);
-      });
+    submitParticulars() {
+        // const incomingData = this.particularsForm;
+        // Object.keys(incomingData).forEach((key) => {
+        //     if (incomingData[key]) {
+        //         console.dir(key);
+        //     }
+        // });
+        const user = this.liveUser;
+        const formData = this.particularsForm;
+        if (user && user.uid) {
+            if (formData.firstName) {
+                UserClaimService.createUserClaim(new UserClaim(user.uid, 'first_name', formData.firstName))
+                .then((res) => {
+                    // Done
+                })
+                .catch((err) => {
+                    console.dir(err);
+                });
+            }
+
+            if (formData.lastName) {
+                UserClaimService.createUserClaim(new UserClaim(user.uid, 'last_name', formData.lastName))
+                .then((res) => {
+                    // Done
+                })
+                .catch((err) => {
+                    console.dir(err);
+                });
+            }
+
+            if (formData.addr) {
+                UserClaimService.createUserClaim(new UserClaim(user.uid, 'address', formData.addr))
+                .then((res) => {
+                    // Done
+                })
+                .catch((err) => {
+                    console.dir(err);
+                });
+            }
+
+            if (formData.email) {
+                UserClaimService.createUserClaim(new UserClaim(user.uid, 'email', formData.email))
+                .then((res) => {
+                    // Done
+                })
+                .catch((err) => {
+                    console.dir(err);
+                });
+            }
+
+            if (formData.prefLang) {
+                UserClaimService.createUserClaim(new UserClaim(user.uid, 'preferred_language', formData.prefLang))
+                .then((res) => {
+                    // Done
+                })
+                .catch((err) => {
+                    console.dir(err);
+                });
+            }
+        }
     },
   },
   data() {
     return {
-      isStepsClickable: true,
       labelPosition: 'on-border',
-      form: {
+      particularsForm: {
         firstName: '',
         lastName: '',
         addr: '',
         prefLang: '',
         email: '',
       },
+      activeTab: 0,
     };
   },
 };

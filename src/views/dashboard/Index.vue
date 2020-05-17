@@ -3,12 +3,6 @@
     <!-- start of contents -->
     <div class="container is-fluid" id="firstcontainer">
       <!--- start of credit score -->
-      <div class="box">
-        <section>
-          <div class="title is-4">Your credit score is</div>
-          <div class="title is-3">{{ creditScore }}</div>
-        </section>
-      </div>
       <!-- start of slider -->
       <div class="box">
         <section>
@@ -49,6 +43,7 @@
           <b-carousel id="caroustyle" :autoplay="false">
             <b-carousel-item v-for="x in carouData" :key="x">
               <div class="hero-body has-text-centered" id="carouitem">
+                <img alt="banklogo" src="../../assets/banklogo.png">
                 <div class="title is-2" id="customtitle">{{ x.bankName }}</div>
                 <div class="subtitle is-4">{{ x.bankLoan }}</div>
                 <div class="subtitle is-6">Amount: ${{ x.amountMin }} to ${{ x.amountMax }}</div>
@@ -155,10 +150,25 @@ export default {
       // Dummy data -- to be replaced with API
       bankData: [
         {
+          bankName: 'CBS', bankLoan: 'Education Loan', amountMin: '5000', amountMax: '40000', maxPeriod: '15', interest: '2.0', avail: false,
+        },
+        {
           bankName: 'POXB', bankLoan: 'Housing Loan', amountMin: '50000', amountMax: '300000', maxPeriod: '30', interest: '3.5', avail: true,
         },
         {
           bankName: 'DBX', bankLoan: 'Education Loan', amountMin: '5000', amountMax: '40000', maxPeriod: '15', interest: '4.1', avail: false,
+        },
+        {
+          bankName: 'OCBX', bankLoan: 'Education Loan', amountMin: '5000', amountMax: '40000', maxPeriod: '15', interest: '4.5', avail: false,
+        },
+        {
+          bankName: 'UOX', bankLoan: 'Education Loan', amountMin: '5000', amountMax: '40000', maxPeriod: '15', interest: '5', avail: false,
+        },
+        {
+          bankName: 'StanChart', bankLoan: 'Education Loan', amountMin: '5000', amountMax: '40000', maxPeriod: '15', interest: '5', avail: false,
+        },
+        {
+          bankName: 'Razer', bankLoan: 'Education Loan', amountMin: '5000', amountMax: '40000', maxPeriod: '15', interest: '5.3', avail: false,
         },
       ],
       // Loan data to be displayed to user
