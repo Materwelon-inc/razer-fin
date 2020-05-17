@@ -152,18 +152,18 @@ export default {
       };
     },
   },
-data() {
-  return {
-    labelPosition: 'on-border',
-    form: {
-      firstName: '',
-      lastName: '',
-      addr: '',
-      prefLang: '',
-      email: '',
-    },
-    activeTab: 0,
-  };
-},
+  data() {
+    return {
+      labelPosition: 'on-border',
+      form: {
+        firstName: '',
+        lastName: '',
+        addr: '',
+        prefLang: '',
+        email: '',
+      },
+      activeTab: 0,
+    };
+  },
 };
 </script>
