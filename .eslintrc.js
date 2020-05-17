@@ -18,5 +18,6 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
     indent: 'off',
     '@typescript-eslint/indent': ['warn', 2],
+    'consistent-this': [2, 'that']
   },
 };

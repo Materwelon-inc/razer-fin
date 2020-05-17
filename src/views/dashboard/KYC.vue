@@ -6,26 +6,26 @@
             <b-tab-item label="Identification">
                 <h1 class="title has-text-centered">Identification</h1>
                 <p class="subtitle is-6 has-text-centered">Please key in your particulars</p>
-                <section>
+                <section class="container">
                     <b-field grouped>
                         <b-field label="First Name"
                             :label-position="labelPosition"
                             type="text">
-                            <b-input v-model="form.firstName" />
+                            <b-input v-model="particularsForm.firstName" />
                         </b-field>
                         <b-field label="Last name"
                             :label-position="labelPosition"
                             type="text">
-                            <b-input v-model="form.lastName" />
+                            <b-input v-model="particularsForm.lastName" />
                         </b-field>
                     </b-field>
                     <b-field label="Email"
                         :label-position="labelPosition"
                         type="email">
-                        <b-input v-model="form.email" />
+                        <b-input v-model="particularsForm.email" />
                     </b-field>
                     <b-field label="Address" :label-position="labelPosition">
-                        <b-input v-model="form.addr" />
+                        <b-input v-model="particularsForm.addr" />
                     </b-field>
                     <b-field grouped>
                         <b-field
@@ -33,26 +33,19 @@
                             id="languagefield"
                             :label-position="labelPosition"
                             >
-                            <b-select v-model="form.prefLang" placeholder="Select a language">
+                            <b-select v-model="particularsForm.prefLang"
+                                placeholder="Select a language">
                                 <option value="English">English</option>
                                 <option value="Chinese">Chinese</option>
                                 <option value="Malay">Malay</option>
                                 <option value="Tamil">Tamil</option>
                             </b-select>
                         </b-field>
-                        <b-field>
-                            <b-input placeholder="Others" v-model="form.prefLang" />
-                        </b-field>
                     </b-field>
                 </section>
-                <div class="buttons">
-                <b-button id="cancelbutton" type="is-danger">Back</b-button>
-                <b-button
-                    id="savebutton"
-                    type="is-success"
-                    >
-                    Save</b-button>
-                </div>
+                <b-field style="margin-top:2em">
+                    <b-button type="is-success" @click="submitParticulars">Save</b-button>
+                </b-field>
             </b-tab-item>
             <b-tab-item label="Upload">
                 <h1 class="title has-text-centered">Upload your ID</h1>
@@ -135,8 +128,24 @@
 
 <script>
 import axios from 'axios';
+import firebase from 'firebase';
+import { mapGetters } from 'vuex';
+import UserClaim from '@/models/UserClaim';
+import UserClaimService from '../../services/UserClaimService';
 
 export default {
+    computed: {
+        ...mapGetters({
+            user: 'user',
+        }),
+        liveUser() {
+            if (this.user && this.user.data && this.user.data.email) {
+                return firebase.auth().currentUser;
+            }
+
+            return null;
+        },
+    },
   methods: {
     onFileChanged(event) {
       // eslint-disable-next-line
@@ -151,11 +160,72 @@ export default {
         console.log('Error: ', error);
       };
     },
+    submitParticulars() {
+        // const incomingData = this.particularsForm;
+        // Object.keys(incomingData).forEach((key) => {
+        //     if (incomingData[key]) {
+        //         console.dir(key);
+        //     }
+        // });
+        const user = this.liveUser;
+        const formData = this.particularsForm;
+        if (user && user.uid) {
+            if (formData.firstName) {
+                UserClaimService.createUserClaim(new UserClaim(user.uid, 'first_name', formData.firstName))
+                .then((res) => {
+                    // Done
+                })
+                .catch((err) => {
+                    console.dir(err);
+                });
+            }
+
+            if (formData.lastName) {
+                UserClaimService.createUserClaim(new UserClaim(user.uid, 'last_name', formData.lastName))
+                .then((res) => {
+                    // Done
+                })
+                .catch((err) => {
+                    console.dir(err);
+                });
+            }
+
+            if (formData.addr) {
+                UserClaimService.createUserClaim(new UserClaim(user.uid, 'address', formData.address))
+                .then((res) => {
+                    // Done
+                })
+                .catch((err) => {
+                    console.dir(err);
+                });
+            }
+
+            if (formData.lastName) {
+                UserClaimService.createUserClaim(new UserClaim(user.uid, 'last_name', formData.lastName))
+                .then((res) => {
+                    // Done
+                })
+                .catch((err) => {
+                    console.dir(err);
+                });
+            }
+
+            if (formData.prefLang) {
+                UserClaimService.createUserClaim(new UserClaim(user.uid, 'preferred_language', formData.prefLang))
+                .then((res) => {
+                    // Done
+                })
+                .catch((err) => {
+                    console.dir(err);
+                });
+            }
+        }
+    },
   },
   data() {
     return {
       labelPosition: 'on-border',
-      form: {
+      particularsForm: {
         firstName: '',
         lastName: '',
         addr: '',

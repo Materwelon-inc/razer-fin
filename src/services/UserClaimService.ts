@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Firebase from 'firebase';
+import UserClaim from '@/models/UserClaim';
 import store from '../store/index';
 
 const userClaims = Firebase.firestore().collection('UserClaims');
@@ -8,7 +9,7 @@ export default {
   getClaim(key: string) {
     return new Promise((resolve, reject) => {
       const user = store.getters.user(store.state);
-      if (!user) reject(null);
+      if (!user) reject();
 
       userClaims
         .where('userid', '==', true)
