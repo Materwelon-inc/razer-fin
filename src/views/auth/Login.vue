@@ -29,9 +29,11 @@
               </b-field>
             </div>
             <footer class="card-footer">
-              <p class="card-footer-item">
+              <p class="card-footer-item buttons">
                 <b-button :loading="isSubmitting" type="is-primary" expanded
                           v-on:click="submit">Login</b-button>
+                <b-button tag="router-link" to="/register" :loading="isSubmitting"
+                type="is-info" expanded v-on:click="submit">Register</b-button>
               </p>
             </footer>
           </div>
