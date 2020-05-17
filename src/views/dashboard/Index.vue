@@ -120,6 +120,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import firebase from 'firebase';
+import UserClaimService from '../../services/UserClaimService';
 
 export default {
   name: 'dashboard',
@@ -135,6 +136,17 @@ export default {
 
       return null;
     },
+  },
+  beforeMount() {
+    UserClaimService.getClaim('email')
+    .then((res) => {
+      for (let i = 0; i < this.bankData.length; i += 1) {
+        this.bankData[i].avail = true;
+      }
+    })
+    .catch((err) => {
+      console.dir(err);
+    });
   },
   data() {
     return {
