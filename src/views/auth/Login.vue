@@ -43,47 +43,47 @@
 
 
 <script>
-  import firebase from 'firebase';
-  import { mapState } from 'vuex';
+import firebase from 'firebase';
+import { mapState } from 'vuex';
 
-  export default {
-    name: 'Login',
-    computed: {
-      ...mapState({
-        user: 'user',
-      }),
-    },
-    data() {
-      return {
-        isSubmitting: false,
-        form: {
-          email: '',
-          password: '',
-          rememberMe: false,
-        },
-        success: null,
-        error: null,
-      };
-    },
-    beforeMount() {
-      if (this.user.loggedIn) this.$router.replace({ name: 'Dashboard' });
-    },
-    methods: {
-      submit() {
-        this.isSubmitting = true;
-        this.error = null;
-
-        firebase.auth().signInWithEmailAndPassword(this.form.email, this.form.password)
-          .then((data) => {
-            this.$router.replace({ name: 'Dashboard' });
-          })
-          .catch((err) => {
-            this.error = err.message;
-          })
-          .finally(() => {
-            this.isSubmitting = false;
-          });
+export default {
+  name: 'Login',
+  computed: {
+    ...mapState({
+      user: 'user',
+    }),
+  },
+  data() {
+    return {
+      isSubmitting: false,
+      form: {
+        email: '',
+        password: '',
+        rememberMe: false,
       },
+      success: null,
+      error: null,
+    };
+  },
+  beforeMount() {
+    if (this.user.loggedIn) this.$router.replace({ name: 'Dashboard' });
+  },
+  methods: {
+    submit() {
+      this.isSubmitting = true;
+      this.error = null;
+
+      firebase.auth().signInWithEmailAndPassword(this.form.email, this.form.password)
+        .then((data) => {
+          this.$router.replace({ name: 'Dashboard' });
+        })
+        .catch((err) => {
+          this.error = err.message;
+        })
+        .finally(() => {
+          this.isSubmitting = false;
+        });
     },
-  };
+  },
+};
 </script>
