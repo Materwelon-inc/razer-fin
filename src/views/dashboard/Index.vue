@@ -87,18 +87,6 @@
                           </b-slider>
                         </section>
                       </div>
-
-                      <b-field label="Password">
-                        <b-input
-                          type="password"
-                          :value="password"
-                          password-reveal
-                          placeholder="Your password"
-                          required
-                        ></b-input>
-                      </b-field>
-
-                      <b-checkbox>Remember me</b-checkbox>
                     </section>
                     <footer class="modal-card-foot">
                       <button class="button" type="button" @click="$parent.close()">Close</button>
