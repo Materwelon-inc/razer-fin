@@ -8,26 +8,26 @@
 
 
 <script>
-  import Firebase from 'firebase';
-  import { mapState } from 'vuex';
+import Firebase from 'firebase';
+import { mapState } from 'vuex';
 
-  export default {
-    name: 'Logout',
-    computed: {
-      ...mapState({
-        user: 'user',
-      }),
-    },
-    beforeMount() {
-      if (!this.user) this.$router.replace({ name: 'home' });
-    },
-    mounted() {
-      Firebase.auth().signOut()
-        .then(() => {
-          this.$router.replace({
-            name: 'home',
-          });
+export default {
+  name: 'Logout',
+  computed: {
+    ...mapState({
+      user: 'user',
+    }),
+  },
+  beforeMount() {
+    if (!this.user) this.$router.replace({ name: 'home' });
+  },
+  mounted() {
+    Firebase.auth().signOut()
+      .then(() => {
+        this.$router.replace({
+          name: 'home',
         });
-    },
-  };
+      });
+  },
+};
 </script>

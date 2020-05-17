@@ -1,7 +1,10 @@
 class User {
   email: string;
+
   first_name: string;
+
   last_name: string;
+
   has_password: boolean;
 
   constructor(email: string, first_name: string, last_name: string, has_password: boolean) {
