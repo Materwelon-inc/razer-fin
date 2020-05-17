@@ -2,7 +2,39 @@
   <div>
     <!-- start of contents -->
     <div class="container is-fluid" id="firstcontainer">
-      <!--- start of credit score -->
+      <!--- Modal (Hidden at the start) -->
+      <b-modal
+        :active.sync="isComponentModalActive"
+        has-modal-card
+        trap-focus
+        :destroy-on-hide="false"
+        aria-role="dialog"
+        aria-modal>
+        <div class="modal-card" style="width: auto">
+          <header class="modal-card-head">
+            <p class="modal-card-title">Indicate amount to loan</p>
+          </header>
+          <section class="modal-card-body">
+            <div class="box">
+              <section>
+                <b-field
+                  label="Amount"
+                  label-position="on-border">
+                  <b-input></b-input>
+                </b-field>
+              </section>
+            </div>
+          </section>
+          <footer class="modal-card-foot">
+            <button class="button"
+              type="button"
+              @click="isComponentModalActive = false">
+              Close</button>
+            <button class="button is-success"
+              @click="isComponentModalActive = false">Submit</button>
+          </footer>
+        </div>
+      </b-modal>
       <!-- start of slider -->
       <div class="box">
         <section>
@@ -53,59 +85,8 @@
                 <b-button
                   :type="availColor(x.avail)"
                   :disabled="!x.avail"
-                  @click="isComponentModalActive = true"
+                  @click="isComponentModalActive = true, chooseLoan(x)"
                 >Apply</b-button>
-                <b-modal
-                  :active.sync="isComponentModalActive"
-                  has-modal-card
-                  trap-focus
-                  :destroy-on-hide="false"
-                  aria-role="dialog"
-                  aria-modal
-                >
-                  <div class="modal-card" style="width: auto">
-                    <header class="modal-card-head">
-                      <p class="modal-card-title">Login</p>
-                    </header>
-                    <section class="modal-card-body">
-                      <div class="box">
-                        <section>
-                          <div class="title is-4">Amount</div>
-                          <b-slider
-                            type="is-success"
-                            :custom-formatter="val=>'$'+val"
-                            v-model="riskVal"
-                            size="is-large"
-                            :min="x.amountMin"
-                            rounded
-                            :max="x.amountMax"
-                            :step="0.01"
-                          >
-                            <template v-for="val in [x.amountMin, x.amountMax]">
-                              <b-slider-tick :value="val" :key="val">{{ val }}</b-slider-tick>
-                            </template>
-                          </b-slider>
-                        </section>
-                      </div>
-
-                      <b-field label="Password">
-                        <b-input
-                          type="password"
-                          :value="password"
-                          password-reveal
-                          placeholder="Your password"
-                          required
-                        ></b-input>
-                      </b-field>
-
-                      <b-checkbox>Remember me</b-checkbox>
-                    </section>
-                    <footer class="modal-card-foot">
-                      <button class="button" type="button" @click="$parent.close()">Close</button>
-                      <button class="button is-primary">Login</button>
-                    </footer>
-                  </div>
-                </b-modal>
               </div>
             </b-carousel-item>
           </b-carousel>
@@ -192,7 +173,9 @@ export default {
       creditScore: 3,
       // ? button on carousel boolean
       isActive: false,
-
+      // Chosen bank loan
+      chosenLoan: {},
+      loanAmount: 100000,
     };
   },
   watch: {
@@ -224,6 +207,9 @@ export default {
     availColor(avail) {
       if (avail) return 'is-success';
       return 'is-dark';
+    },
+    chooseLoan(x) {
+      this.chosenLoan = x;
     },
   },
 };
