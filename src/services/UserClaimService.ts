@@ -24,7 +24,7 @@ export default {
   },
   createUserClaim(userClaim: UserClaim) {
     return new Promise((resolve, reject) => {
-      userClaims.add(userClaim)
+      userClaims.add({ ...userClaim })
         .then((result) => {
           resolve(result);
         })
