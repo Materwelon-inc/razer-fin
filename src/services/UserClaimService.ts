@@ -8,11 +8,11 @@ const userClaims = Firebase.firestore().collection('UserClaims');
 export default {
   getClaim(key: string) {
     return new Promise((resolve, reject) => {
-      const user = store.getters.user(store.state);
-      if (!user) reject();
+      const user = Firebase.auth().currentUser;
+      if (!user || !user.uid) reject();
 
       userClaims
-        .where('userid', '==', true)
+        .where('userid', '==', user!.uid)
         .where('claimtype', '==', key).get()
         .then((res) => {
           resolve(res);
@@ -24,13 +24,23 @@ export default {
   },
   createUserClaim(userClaim: UserClaim) {
     return new Promise((resolve, reject) => {
-      userClaims.add({ ...userClaim })
-        .then((result) => {
-          resolve(result);
-        })
-        .catch((err) => {
-          reject(err);
-        });
+      this.getClaim(userClaim.claimtype)
+      .then((res: any) => {
+        if (res && !res.empty) {
+          reject();
+        } else {
+          userClaims.add({ ...userClaim })
+            .then((result) => {
+              resolve(result);
+            })
+            .catch((err) => {
+              reject(err);
+            });
+        }
+      })
+      .catch((err) => {
+        reject(err);
+      });
     });
   },
 };

@@ -191,7 +191,7 @@ export default {
             }
 
             if (formData.addr) {
-                UserClaimService.createUserClaim(new UserClaim(user.uid, 'address', formData.address))
+                UserClaimService.createUserClaim(new UserClaim(user.uid, 'address', formData.addr))
                 .then((res) => {
                     // Done
                 })
@@ -200,8 +200,8 @@ export default {
                 });
             }
 
-            if (formData.lastName) {
-                UserClaimService.createUserClaim(new UserClaim(user.uid, 'last_name', formData.lastName))
+            if (formData.email) {
+                UserClaimService.createUserClaim(new UserClaim(user.uid, 'email', formData.email))
                 .then((res) => {
                     // Done
                 })
