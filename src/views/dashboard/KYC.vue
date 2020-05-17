@@ -2,7 +2,7 @@
   <div class="container" id="main-container">
     <div class="box">
       <section>
-        <b-tabs v-model="activeTab">
+        <b-tabs>
             <b-tab-item label="Identification">
                 <h1 class="title has-text-centered">Identification</h1>
                 <p class="subtitle is-6 has-text-centered">Please key in your particulars</p>
@@ -50,7 +50,7 @@
                 <b-button
                     id="savebutton"
                     type="is-success"
-                    v-on:click="saveParticulars">
+                    >
                     Save</b-button>
                 </div>
             </b-tab-item>
@@ -82,14 +82,14 @@
                         <p class="subtitle is-6">Front:</p>
                         <b-field class="file">
                         <input type="file" accept="image/*" @change="onFileChanged" />
-                        <b-button @click="onUpload" type="is-success" outlined>Upload!</b-button>
-                        <span class="file-name" v-if="frontIC">{{ frontIC.name }}</span>
+                        <b-button type="is-success" outlined>Upload!</b-button>
+                        <!-- <span class="file-name" v-if="frontIC">{{ frontIC.name }}</span> -->
                         </b-field>
                         <p class="subtitle is-6">Back:</p>
                         <b-field class="file">
                         <input type="file" accept="image/*" @change="onFileChanged" />
-                        <b-button @click="onUpload" type="is-success" outlined>Upload!</b-button>
-                        <span class="file-name" v-if="backIC">{{ backIC.name }}</span>
+                        <b-button type="is-success" outlined>Upload!</b-button>
+                        <!-- <span class="file-name" v-if="backIC">{{ backIC.name }}</span> -->
                         </b-field>
                     </div>
                     </div>
@@ -138,40 +138,22 @@ import axios from 'axios';
 
 export default {
   methods: {
-    // onFileChanged(event) {
-    //   // eslint-disable-next-line
-    //   // this.selectedFile = event.target.files[0]
-    //   const file = event.target.files[0];
-    //   const reader = new FileReader();
-    //   reader.readAsDataURL(file);
-    //   reader.onload = function () {
-    //     console.log(reader.result);
-    //   };
-    //   reader.onerror = function (error) {
-    //     console.log('Error: ', error);
-    //   };
-    // },
-    // onUpload() {
-    //   // upload file, get it from this.selectedFile
-    //   console.log(this.selectedFile);
-    //   const formData = new FormData();
-    //   formData.append('myFile', this.selectedFile, this.selectedFile.name);
-    //   axios
-    //     .post(
-    //       'https://niw1itg937.execute-api.ap-southeast-1.amazonaws.com/Prod/verify',
-    //       formData,
-    //     )
-    //     .then(res => {
-    //       console.log(res);
-    //     });
-    // },
+    onFileChanged(event) {
+      // eslint-disable-next-line
+      // this.selectedFile = event.target.files[0]
+      const file = event.target.files[0];
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = function () {
+        console.log(reader.result);
+      };
+      reader.onerror = function (error) {
+        console.log('Error: ', error);
+      };
+    },
   },
 data() {
   return {
-    activeTab: 0,
-    showMusic: true,
-    showBooks: false,
-    multiline: true,
     labelPosition: 'on-border',
     form: {
       firstName: '',
@@ -180,57 +162,8 @@ data() {
       prefLang: '',
       email: '',
     },
+    activeTab: 0,
   };
-},
-computed: {
-  baseTabs() {
-    return [
-      {
-        label: 'Pictures',
-        content: 'Pictures: Lorem ipsum dolor sit amet.',
-        displayed: true,
-      },
-      {
-        label: 'Music',
-        content: 'Music: Lorem ipsum dolor sit amet.',
-        displayed: this.showMusic,
-      },
-      {
-        label: 'Videos',
-        content: 'Videos: Lorem ipsum dolor sit amet.',
-        displayed: true,
-      },
-      {
-        label: 'Games',
-        content: 'Games: Lorem ipsum dolor sit amet.',
-        displayed: true,
-      },
-      {
-        label: 'Comics',
-        content: 'Comics: Lorem ipsum dolor sit amet.',
-        displayed: true,
-      },
-      {
-        label: 'Movies',
-        content: 'Movies: Lorem ipsum dolor sit amet.',
-        displayed: true,
-      },
-    ];
-  },
-  tabs() {
-    const tabs = [...this.baseTabs];
-    if (this.showBooks) {
-      tabs.splice(tabs.length - 1, 0, this.bookTab);
-    }
-    return tabs;
-  },
-  bookTab() {
-    return {
-      label: 'Books',
-      content: 'Books: Lorem ipsum dolor sit amet.',
-      displayed: true,
-    };
-  },
 },
 };
 </script>
